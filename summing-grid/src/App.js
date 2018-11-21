@@ -15,10 +15,6 @@ class App extends Component {
     this.alterNum = this.alterNum.bind(this)
   }
 
-  componentDidMount() {
-    this.runTotal();
-  }
-
   changeNum(e, valueToChange) {
     this.setState(valueToChange, () => this.runTotal())
   }
@@ -32,8 +28,10 @@ class App extends Component {
   }
 
   alterNum(num) {
-    var newNum;
-    //LOGIC FOR LETTER
+    //Rounding number
+    var newNum = parseFloat(num.toString().slice(0,4))/1000
+
+    //Assigning letter
     let letter = ''
     let length = Math.round(100 * Math.log(num) / Math.log(10)) / 100;
 
@@ -49,14 +47,9 @@ class App extends Component {
       letter = ''
     }
 
-    //LOGIC FOR ROUNDING
-    if(num >= 1000) {
-      newNum = parseFloat(num.toString().slice(0,4))/1000
-      return newNum.toFixed(2) + letter
+    var result = length > 3 ? newNum.toFixed(2) + letter : num
 
-    } else {
-      return num
-    }
+    return result;
   
   }
 
