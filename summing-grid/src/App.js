@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 
 class App extends Component {
-  constructor(){
+  constructor() {
     super()
     this.state = {
       num1: 0,
@@ -12,23 +12,48 @@ class App extends Component {
     }
 
     this.changeNum = this.changeNum.bind(this)
+    this.alterNum = this.alterNum.bind(this)
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.runTotal();
   }
 
-  changeNum(e,valueToChange){
-    this.setState(valueToChange)
-    this.runTotal()
+  changeNum(e, valueToChange) {
+    this.setState(valueToChange, () => this.runTotal())
   }
 
-  runTotal(){
+  runTotal() {
     var sum = this.state.num1 + this.state.num2 + this.state.num3
+    var newSum = this.alterNum(sum)
     this.setState({
-      total: sum
+      total: newSum
     })
   }
+
+  alterNum(num) {
+    //LOGIC FOR LETTER
+    let letter = ''
+    let length = Math.round(100 * Math.log(num) / Math.log(10)) / 100;
+
+    if (length > 3 && length < 6) {
+      letter = 'K'
+    } else if (length > 6 && length < 9) {
+      letter = 'M'
+    } else if (length > 9 && length < 12) {
+      letter = 'B'
+    } else if (length > 12 && length < 15) {
+      letter = 'T'
+    } else {
+      letter = ''
+    }
+
+    //LOGIC FOR ROUNDING
+    var newNum = parseFloat(Math.pow(num, -10).toString().slice(0, 5)).toFixed(2)
+
+    return num + letter
+  }
+
 
 
 
@@ -38,16 +63,17 @@ class App extends Component {
         <h1 className="App-title">Grid</h1>
         <div className="App__grid">
           <div className="App__grid--item">
-            <input type="number" defaultValue={this.state.num1} onChange={(e) => this.changeNum(e, {num1: parseInt(e.target.value, 10)})}/>
+            <input type="number" defaultValue={this.state.num1} onChange={(e) => this.changeNum(e, { num1: parseInt(e.target.value, 10) })} />
           </div>
           <div className="App__grid--item">
-            <input type="number" value={this.state.num2} onChange={(e) => this.changeNum(e, {num2: parseInt(e.target.value, 10)})}/>
+            <input type="number" value={this.state.num2} onChange={(e) => this.changeNum(e, { num2: parseInt(e.target.value, 10) })} />
           </div>
           <div className="App__grid--item">
-            <input type="number" value={this.state.num3} onChange={(e) => this.changeNum(e, {num3: parseInt(e.target.value, 10)})}/>
+            <input type="number" value={this.state.num3} onChange={(e) => this.changeNum(e, { num3: parseInt(e.target.value, 10) })} />
           </div>
           <div className="App__grid--item">
-            <h2>Sum: {this.state.num1 + this.state.num2 + this.state.num3}</h2>
+            <h2>Uglified Sum: {this.state.num1 + this.state.num2 + this.state.num3}</h2>
+            <h2>Prettified Sum: {this.state.total}</h2>
           </div>
         </div>
       </div>
