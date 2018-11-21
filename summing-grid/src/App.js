@@ -32,6 +32,7 @@ class App extends Component {
   }
 
   alterNum(num) {
+    var newNum;
     //LOGIC FOR LETTER
     let letter = ''
     let length = Math.round(100 * Math.log(num) / Math.log(10)) / 100;
@@ -49,9 +50,14 @@ class App extends Component {
     }
 
     //LOGIC FOR ROUNDING
-    var newNum = parseFloat(Math.pow(num, -10).toString().slice(0, 5)).toFixed(2)
+    if(num >= 1000) {
+      newNum = parseFloat(num.toString().slice(0,4))/1000
+      return newNum.toFixed(2) + letter
 
-    return num + letter
+    } else {
+      return num
+    }
+  
   }
 
 
@@ -72,8 +78,7 @@ class App extends Component {
             <input type="number" value={this.state.num3} onChange={(e) => this.changeNum(e, { num3: parseInt(e.target.value, 10) })} />
           </div>
           <div className="App__grid--item">
-            <h2>Uglified Sum: {this.state.num1 + this.state.num2 + this.state.num3}</h2>
-            <h2>Prettified Sum: {this.state.total}</h2>
+            <h2>Sum: {this.state.total}</h2>
           </div>
         </div>
       </div>
