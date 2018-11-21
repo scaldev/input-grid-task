@@ -15,8 +15,12 @@ class App extends Component {
     this.alterNum = this.alterNum.bind(this)
   }
 
-  changeNum(e, valueToChange) {
-    this.setState(valueToChange, () => this.runTotal())
+  changeNum(e) {
+    var val = parseInt(e.target.value,10) ? parseInt(e.target.value,10) : 0
+
+    this.setState({
+      [e.target.name]: val
+    },() => this.runTotal())
   }
 
   runTotal() {
@@ -62,13 +66,13 @@ class App extends Component {
         <h1 className="App-title">Grid</h1>
         <div className="App__grid">
           <div className="App__grid--item">
-            <input type="number" defaultValue={this.state.num1} onChange={(e) => this.changeNum(e, { num1: parseInt(e.target.value, 10) })} />
+            <input name="num1" type="number" defaultValue={this.state.num1} onChange={(e) => this.changeNum(e)} />
           </div>
           <div className="App__grid--item">
-            <input type="number" value={this.state.num2} onChange={(e) => this.changeNum(e, { num2: parseInt(e.target.value, 10) })} />
+            <input name="num2" type="number" value={this.state.num2} onChange={(e) => this.changeNum(e)} />
           </div>
           <div className="App__grid--item">
-            <input type="number" value={this.state.num3} onChange={(e) => this.changeNum(e, { num3: parseInt(e.target.value, 10) })} />
+            <input name="num3" type="number" value={this.state.num3} onChange={(e) => this.changeNum(e)} />
           </div>
           <div className="App__grid--item">
             <h2>Sum: {this.state.total}</h2>
